@@ -1,0 +1,39 @@
+.appHeader {
+  flex: 0 0 auto;
+  background: #ffda00;
+  padding: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  -webkit-box-shadow: 0px 5px 5px -1px rgba(0,0,0,0.2);
+  -moz-box-shadow: 0px 5px 5px -1px rgba(0,0,0,0.2);
+  box-shadow: 0px 5px 5px -1px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.appHeader h1 {
+  margin: 0;
+  font-family:"FranklinGothicW01-Extra 692515";
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  color: black;
+  cursor: pointer;
+}
+
+.appHeaderBackIcon {
+  width: auto;
+  height: 20px;
+  margin-right: 5px;
+}
+
+.appHeaderBackSpacer {
+  display:inline-block;
+  width: 15px;
+}
+
+.appHeaderIcon {
+  width: auto;
+  height: 33px;
+  margin-right: 10px;
+}

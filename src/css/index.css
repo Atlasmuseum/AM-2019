@@ -1,0 +1,49 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#root {
+  height: 100%;
+}
+
+h1, h2 {
+  font-family: "Poppins", sans-serif;
+}
+
+h1 {
+  font-size: 32px;
+  line-height: 32px;
+}
+
+h2 {
+  font-size: 26px;
+  line-height: 26px;
+}
+
+#appContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  color: #1a1a1a;
+  font-family: "ITCFranklinGothicW02-Bk 812924";
+}
+
+#appContent {
+  padding: 20px 10px 10px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}

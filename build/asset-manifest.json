@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/app/static/css/main.fba3d060.chunk.css",
+    "main.js": "/app/static/js/main.8c9f9493.chunk.js",
+    "main.js.map": "/app/static/js/main.8c9f9493.chunk.js.map",
+    "runtime-main.js": "/app/static/js/runtime-main.7120d7ff.js",
+    "runtime-main.js.map": "/app/static/js/runtime-main.7120d7ff.js.map",
+    "static/js/2.e65c7236.chunk.js": "/app/static/js/2.e65c7236.chunk.js",
+    "static/js/2.e65c7236.chunk.js.map": "/app/static/js/2.e65c7236.chunk.js.map",
+    "index.html": "/app/index.html",
+    "precache-manifest.3a4f0a90af35d521eb63b726b6975895.js": "/app/precache-manifest.3a4f0a90af35d521eb63b726b6975895.js",
+    "service-worker.js": "/app/service-worker.js",
+    "static/css/main.fba3d060.chunk.css.map": "/app/static/css/main.fba3d060.chunk.css.map",
+    "static/media/font.css": "/app/static/media/fa57f000-5f6b-487b-9d4a-6bcbbc9f4ed3.35958362.woff",
+    "static/media/about.svg": "/app/static/media/about.72ce18fb.svg",
+    "static/media/around.svg": "/app/static/media/around.42c01412.svg",
+    "static/media/edit.svg": "/app/static/media/edit.a5fe3098.svg",
+    "static/media/help.svg": "/app/static/media/help.311424df.svg",
+    "static/media/map.svg": "/app/static/media/map.ef0f7479.svg",
+    "static/media/news.svg": "/app/static/media/news.1ba079a0.svg",
+    "static/media/person.svg": "/app/static/media/person.23ef408f.svg",
+    "static/media/search.svg": "/app/static/media/search.ec332cd5.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.7120d7ff.js",
+    "static/js/2.e65c7236.chunk.js",
+    "static/css/main.fba3d060.chunk.css",
+    "static/js/main.8c9f9493.chunk.js"
+  ]
+}

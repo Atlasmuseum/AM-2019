@@ -1,0 +1,44 @@
+.resultCard {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #808080;
+}
+
+.resultCardImage {
+  flex: 0 0 200px;
+}
+@media (max-width: 600px) {
+  .resultCardImage {
+    flex: 0 0 33%;
+  }
+}
+
+.resultCardImage img {
+  max-width: 100%;
+}
+
+.resultCardContent {
+  padding-left: 10px;
+}
+
+.resultCardTitle {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.resultCardTitle h1 {
+  margin: 0 10px 0 0;
+  word-break: break-all;
+}
+
+.resultCardNetwork {
+  font-style: italic;
+}
+
+.resultCardSummary {
+  margin-top: 10px;
+}

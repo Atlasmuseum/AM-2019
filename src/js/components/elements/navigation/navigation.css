@@ -1,0 +1,104 @@
+.appNavigation {
+  height: 100%;
+}
+
+.appNavigation ul {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  list-style-type: none;
+}
+
+.appNavigation li {
+  flex: 0 0 auto;
+  width: 25%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+@media screen and (max-width: 800px) {
+  .appNavigation li {
+    width: 50%;
+    height: 25%;
+  }
+}
+
+.navSearch {
+  background-color: #807900;
+}
+
+.navEdit {
+  background-color: #807600;
+}
+
+.navAround {
+  background-color: #807400;
+}
+
+.navMap {
+  background-color: #807000;
+}
+
+.navHelp {
+  background-color: #272727;
+  color: #808080;
+}
+
+.navPerson {
+  background-color: #383838;
+  color: #808080;
+}
+
+.navNews {
+  background-color: #6e6e6e;
+}
+
+.navAbout {
+  background-color: #787878;
+}
+
+.navSearch:hover {
+  background-color: #938b00;
+}
+
+
+.navEdit:hover {
+  background-color: #938700;
+}
+
+.navAround:hover {
+  background-color: #938500;
+}
+
+.navMap:hover {
+  background-color: #938500;
+}
+
+.navHelp:hover {
+  background-color: #313131;
+  color: #808080;
+}
+
+.navPerson:hover {
+  background-color: #414141;
+  color: #808080;
+}
+
+.navNews:hover {
+  background-color: #757575;
+}
+
+.navAbout:hover {
+  background-color: #7e7e7e;
+}
+
+.navIcon {
+  margin: 10px;
+}

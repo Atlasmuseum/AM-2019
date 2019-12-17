@@ -1,0 +1,16 @@
+.searchResultContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.searchResultHeader {
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #808080;
+}
+
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}

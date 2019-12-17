@@ -1,0 +1,17 @@
+.atlasmuseumPageLoader {
+  color: #333333
+}
+
+.atlasmuseumPageLoader a {
+  color: #00b9ee;
+  text-decoration: none;
+}
+
+.atlasmuseumPageLoader h2 {
+  margin-bottom: 30px;
+  font-size: 20px;
+}
+
+.atlasmuseumPageLoader p {
+  margin-bottom: 20px;
+}
