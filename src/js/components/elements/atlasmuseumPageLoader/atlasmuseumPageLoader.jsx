@@ -16,9 +16,10 @@ export class AtlasmuseumPageLoader extends Component {
   componentDidMount() {
     const {
       getPage,
+      page,
     } = this.props
-
-    getPage({ page: 'Actualités' })
+console.log(page)
+    getPage({ page })
   }
 
   render() {

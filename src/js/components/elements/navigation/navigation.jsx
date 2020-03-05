@@ -67,7 +67,6 @@ export class Navigation extends Component {
       name: 'news',
       backgroundColor: '#dcdcdc',
       textColor: '#323232',
-      onClick: this.onClickNews,
     },
     {
       icon: aboutIcon,
@@ -75,11 +74,20 @@ export class Navigation extends Component {
       name: 'about',
       backgroundColor: '#eeeeee',
       textColor: '#323232',
+      onClick: this.onClickAbout,
     },
   ]
 
   onClickItem = (name = null) => {
     switch (name) {
+      case 'about':
+        this.props.history.push('/about');
+        break;
+
+      case 'help':
+        this.props.history.push('/help');
+        break;
+
       case 'news':
         this.props.history.push('/news');
         break;
