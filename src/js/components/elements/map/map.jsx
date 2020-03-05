@@ -10,11 +10,39 @@ import DiscLoader from '../discLoader'
 
 import './map.css'
 
+const iconMarker = new L.Icon({
+  iconUrl: require('../../../../assets/images/Picto-gris.png'),
+  iconRetinaUrl: require('../../../../assets/images/Picto-gris.png'),
+  iconSize: new L.Point(20, 31),
+  iconAnchor: [10, 31],
+  popupAnchor: [0, -25],
+});
+
 const createClusterCustomIcon = function (cluster) {
+  const count = cluster.getChildCount()
+  let className = 'map_cluster '
+  let iconSize = 55
+  if (count >= 20) { 
+    className += 'map_cluster_xl'
+    iconSize = 45
+  }
+  else if (count >= 10) {
+    className += 'map_cluster_l'
+    iconSize = 40
+  }
+  else if (count >= 5) {
+    className += 'map_cluster_m'
+    iconSize = 35
+  }
+  else {
+    className += 'map_cluster_s'
+    iconSize = 30
+  }
+
   return L.divIcon({
-    html: `<span>${cluster.getChildCount()}</span>`,
-    className: 'marker-cluster-custom',
-    iconSize: L.point(40, 40, true),
+    html: `<span>${count}</span>`,
+    className,
+    iconSize: L.point(iconSize, iconSize, true),
   });
 };
 
@@ -54,7 +82,7 @@ export class ArtworkMap extends Component {
       mapLoading,
       mapContent,
     } = this.props
-console.log(mapContent)
+
     return (
       <div className="mapContainer">
         { mapLoading
@@ -72,18 +100,36 @@ console.log(mapContent)
             { mapContent.length > 0
               && (
                 <MarkerClusterGroup
-                showCoverageOnHover={false}
-    spiderfyDistanceMultiplier={2}
-    iconCreateFunction={createClusterCustomIcon}
+                  showCoverageOnHover={false}
+                  spiderfyDistanceMultiplier={2}
+                  iconCreateFunction={createClusterCustomIcon}
                 >
-                { mapContent.map(artwork => (
-                  <Marker
-                    key={artwork.article}
-                    position={[artwork.lat, artwork.lon]}
-                  >
-                    <Popup>{artwork.title}</Popup>
-                  </Marker>
-                ))}
+                  { mapContent.map(artwork => (
+                    <Marker
+                      key={artwork.article}
+                      position={[artwork.lat, artwork.lon]}
+                      icon={iconMarker}
+                    >
+                      <Popup className="map_popup">
+                        <span className="map_popup_title">{artwork.title}</span>
+                        { artwork.artist
+                          && (
+                            <>
+                              <hr className="map_popup_hr" />
+                              <table className="map_popup_table">
+                                <tbody>
+                                  <tr>
+                                    <th>Auteur :</th>
+                                    <td>{artwork.artist}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </>
+                          )
+                        }
+                      </Popup>
+                    </Marker>
+                  ))}
                 </MarkerClusterGroup>
               )
             }

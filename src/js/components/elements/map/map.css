@@ -14,3 +14,53 @@
   text-align: center;
   width: 40px;
 }
+
+.map_cluster {
+  border-radius: 50%;
+  font-weight: bold;
+  font-size: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map_cluster_xl {
+  width: 55px;
+  height: 55px;
+  background: radial-gradient(circle at center,#ff00ed, #ff00ed 55%, rgba(255,0,237,0.5) 55%, rgba(255,0,237,0.5) 100%);
+}
+
+.map_cluster_l {
+  width: 50px;
+  height: 50px;
+  background: radial-gradient(circle at center,#ff0000, #ff0000 55%, rgba(255,0,0,0.5) 55%, rgba(255,0,0,0.5) 100%);
+}
+
+.map_cluster_m {
+  width: 45px;
+  height: 45px;
+  background: radial-gradient(circle at center,#ffbf00, #ffbf00 55%, rgba(255,191,0,0.5) 55%, rgba(255,191,0,0.5) 100%);
+}
+
+.map_cluster_s {
+  width: 30px;
+  height: 30px;
+  background: radial-gradient(circle at center,#008cff, #008cff 55%, rgba(0,140,255,0.5) 55%, rgba(0,140,255,0.5) 100%);
+}
+
+.leaflet-popup-content-wrapper {
+  padding: 5px;
+}
+
+.map_popup_title {
+  font-weight: bold;
+  padding: 0 !important;
+}
+
+.map_popup hr {
+  height: 1px;
+  color: #aaa;
+  background-color: #aaa;
+  border: 0;
+  margin: 10px 0;
+}
