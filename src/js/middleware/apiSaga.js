@@ -87,7 +87,7 @@ function getPage(args) {
     return getAPI(requestParameters)
       .then(data => {
         if (!data.error) {
-          return [data.parse.text['*'].replace('<a href="/wiki', '<a href="http://atlasmuseum.net/wiki')]
+          return [data.parse.text['*'].replace('<a href="/wiki', '<a href="https://atlasmuseum.net/wiki')]
         }
 
         return []
@@ -198,7 +198,7 @@ function getAPI(requestParameters) {
   }
 
   // Construction de l'URL de la requête API
-  const requestUrl = 'http://atlasmuseum.net/w/api.php?' + 
+  const requestUrl = 'https://atlasmuseum.net/w/api.php?' + 
   Object.keys(requestParameters).map(function(key) {
     return encodeURIComponent(key) + '=' + encodeURIComponent(requestParameters[key])
   }).join('&')
@@ -223,7 +223,7 @@ function getAMAPI(requestParameters) {
     cache: 'default'
   }
   // Construction de l'URL de la requête API
-  const requestUrl = 'http://atlasmuseum.net/w/amapi/index.php?' + 
+  const requestUrl = 'https://atlasmuseum.net/w/amapi/index.php?' + 
   Object.keys(requestParameters).map(function(key) {
     return encodeURIComponent(key) + '=' + encodeURIComponent(requestParameters[key])
   }).join('&')
