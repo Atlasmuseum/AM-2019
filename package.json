@@ -2,7 +2,7 @@
   "name": "atlasmuseum",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://publicartmuseum.net/app",
+  "homepage": "http://atlasmuseum.net/app",
   "dependencies": {
     "leaflet": "^1.6.0",
     "leaflet.markercluster": "^1.4.1",

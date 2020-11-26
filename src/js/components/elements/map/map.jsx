@@ -82,7 +82,7 @@ export class ArtworkMap extends Component {
       mapLoading,
       mapContent,
     } = this.props
-
+console.log(mapContent[10000])
     return (
       <div className="mapContainer">
         { mapLoading
@@ -111,7 +111,7 @@ export class ArtworkMap extends Component {
                       icon={iconMarker}
                     >
                       <Popup className="map_popup">
-                        <span className="map_popup_title">{artwork.title}</span>
+                        <a href={'artwork/' + (artwork.nature === 'wikidata' ? artwork.wikidata : artwork.article)}><span className="map_popup_title">{artwork.title}</span></a>
                         { artwork.artist
                           && (
                             <>

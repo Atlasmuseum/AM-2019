@@ -5,11 +5,17 @@ import {
   GET_PAGE_READY,
   GET_MAP,
   GET_MAP_READY,
+  GET_ARTWORK,
+  GET_ARTWORK_READY,
+  GET_IMAGE,
+  GET_IMAGE_READY,
 } from '../constants/action-types'
 
 export default function* watcherSaga() {
   yield takeEvery(GET_PAGE, getPageSaga)
   yield takeEvery(GET_MAP, getMapSaga)
+  yield takeEvery(GET_ARTWORK, getArtworkSaga)
+  yield takeEvery(GET_IMAGE, getImageSaga)
 }
 
 function* getPageSaga(args) {
@@ -25,6 +31,24 @@ function* getMapSaga(args) {
   try {
     const payload = yield call(getMap, args)
     yield put({ type: GET_MAP_READY, payload })
+  } catch (e) {
+    yield put({ type: API_ERROR, payload: e })
+  }
+}
+
+function* getArtworkSaga(args) {
+  try {
+    const payload = yield call(getArtwork, args)
+    yield put({ type: GET_ARTWORK_READY, payload })
+  } catch (e) {
+    yield put({ type: API_ERROR, payload: e })
+  }
+}
+
+function* getImageSaga(args) {
+  try {
+    const payload = yield call(getImage, args)
+    yield put({ type: GET_IMAGE_READY, payload })
   } catch (e) {
     yield put({ type: API_ERROR, payload: e })
   }
@@ -48,11 +72,10 @@ function getPage(args) {
       format: 'json'
     }
     
-    
     return getAPI(requestParameters)
       .then(data => {
         if (!data.error) {
-          return [data.parse.text['*'].replace('<a href="/wiki', '<a href="http://publicartmuseum.net/wiki')]
+          return [data.parse.text['*'].replace('<a href="/wiki', '<a href="http://atlasmuseum.net/wiki')]
         }
 
         return []
@@ -83,6 +106,50 @@ function getMap(args) {
 }
 
 /**
+ * Récupération des données d'une œuvre
+ * @param {*} args 
+ */
+function getArtwork(args) {
+  // Paramêtres de requête API
+  const requestParameters = {
+    action: 'amgetartwork',
+    article: args.payload,
+  }
+
+  return getAMAPI(requestParameters)
+    .then(data => {
+      if (data.success) {
+        return data.entities
+      }
+
+      return {}
+    })
+}
+
+/**
+ * Récupération des données d'une image
+ * @param {*} args 
+ */
+function getImage(args) {
+  // Paramêtres de requête API
+  const requestParameters = {
+    action: 'amgetimage',
+    image: args.payload.image,
+    origin: args.payload.origin,
+    width: args.payload.width,
+    legend: false,
+  }
+  return getAMAPI(requestParameters)
+    .then(data => {
+      if (data.success) {
+        return data.entities
+      }
+
+      return {}
+    })
+}
+
+/**
  * Appel de l'API atlasmuseum avec une méthode GET
  *
  * @param {Object} requestParameters - Paramètres à passer à l'API
@@ -96,7 +163,7 @@ function getAPI(requestParameters) {
   }
 
   // Construction de l'URL de la requête API
-  const requestUrl = 'http://publicartmuseum.net/w/api.php?' + 
+  const requestUrl = 'http://atlasmuseum.net/w/api.php?' + 
   Object.keys(requestParameters).map(function(key) {
     return encodeURIComponent(key) + '=' + encodeURIComponent(requestParameters[key])
   }).join('&')
@@ -121,7 +188,7 @@ function getAMAPI(requestParameters) {
     cache: 'default'
   }
   // Construction de l'URL de la requête API
-  const requestUrl = 'http://publicartmuseum.net/w/amapi/index.php?' + 
+  const requestUrl = 'http://atlasmuseum.net/w/amapi/index.php?' + 
   Object.keys(requestParameters).map(function(key) {
     return encodeURIComponent(key) + '=' + encodeURIComponent(requestParameters[key])
   }).join('&')

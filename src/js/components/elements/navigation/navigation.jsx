@@ -79,6 +79,7 @@ export class Navigation extends Component {
   ]
 
   onClickItem = (name = null) => {
+    console.log(name)
     switch (name) {
       case 'about':
         this.props.history.push('/about');

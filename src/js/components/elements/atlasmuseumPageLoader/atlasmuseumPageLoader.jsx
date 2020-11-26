@@ -18,7 +18,7 @@ export class AtlasmuseumPageLoader extends Component {
       getPage,
       page,
     } = this.props
-console.log(page)
+
     getPage({ page })
   }
 
