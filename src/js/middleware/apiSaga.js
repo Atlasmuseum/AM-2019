@@ -9,6 +9,8 @@ import {
   GET_ARTWORK_READY,
   GET_IMAGE,
   GET_IMAGE_READY,
+  GET_NEARBY_ARTWORKS,
+  GET_NEARBY_ARTWORKS_READY,
 } from '../constants/action-types'
 
 export default function* watcherSaga() {
@@ -16,6 +18,7 @@ export default function* watcherSaga() {
   yield takeEvery(GET_MAP, getMapSaga)
   yield takeEvery(GET_ARTWORK, getArtworkSaga)
   yield takeEvery(GET_IMAGE, getImageSaga)
+  yield takeEvery(GET_NEARBY_ARTWORKS, getNearbyArtworksSaga)
 }
 
 function* getPageSaga(args) {
@@ -49,6 +52,15 @@ function* getImageSaga(args) {
   try {
     const payload = yield call(getImage, args)
     yield put({ type: GET_IMAGE_READY, payload })
+  } catch (e) {
+    yield put({ type: API_ERROR, payload: e })
+  }
+}
+
+function* getNearbyArtworksSaga(args) {
+  try {
+    const payload = yield call(getNearbyArtworks, args)
+    yield put({ type: GET_NEARBY_ARTWORKS_READY, payload })
   } catch (e) {
     yield put({ type: API_ERROR, payload: e })
   }
@@ -139,6 +151,29 @@ function getImage(args) {
     width: args.payload.width,
     legend: false,
   }
+  return getAMAPI(requestParameters)
+    .then(data => {
+      if (data.success) {
+        return data.entities
+      }
+
+      return {}
+    })
+}
+
+/**
+ * Récupération des œuvres proches
+ * @param {*} args 
+ */
+function getNearbyArtworks(args) {
+  // Paramêtres de requête API
+  const requestParameters = {
+    action: 'amgetcloseartworks',
+    latitude: args.payload.latitude,
+    longitude: args.payload.longitude,
+    distance: args.payload.distance,
+  }
+
   return getAMAPI(requestParameters)
     .then(data => {
       if (data.success) {

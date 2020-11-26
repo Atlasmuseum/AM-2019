@@ -85,6 +85,10 @@ export class Navigation extends Component {
         this.props.history.push('/about');
         break;
 
+      case 'around':
+        this.props.history.push('/around');
+        break;
+
       case 'help':
         this.props.history.push('/help');
         break;

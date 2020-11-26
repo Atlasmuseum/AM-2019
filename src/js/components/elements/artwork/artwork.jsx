@@ -105,11 +105,17 @@ export class Artwork extends Component {
           region = this.getValues(artworkContent.data.site_region)
           country = this.getLabels(artworkContent.data.site_pays)
           siteDetails = this.getValues(artworkContent.data.site_details)
-          place = [city, country].join(', ')
           date = this.getValues(artworkContent.data.inauguration)
           imageData = artworkContent.data.image_principale && artworkContent.data.image_principale.value.length > 0
             ? artworkContent.data.image_principale.value[0]
             : null
+          const placeData = []
+          if (city)
+            placeData.push(city)
+          if (city)
+            placeData.push(country)
+          if (placeData.length > 0)
+            place = placeData.join(', ')
         }
       }
 

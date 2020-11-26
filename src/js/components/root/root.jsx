@@ -9,6 +9,7 @@ import Help from '../views/help'
 import News from '../views/news'
 import About from '../views/about'
 import Artwork from '../views/artwork'
+import Around from '../views/around'
 
 const Root = ({ store }) => (
   <Provider store={store}>
@@ -17,6 +18,7 @@ const Root = ({ store }) => (
       <Route exact path="/help" component={Help} />
       <Route exact path="/news" component={News} />
       <Route exact path="/about" component={About} />
+      <Route exact path="/around" component={Around} />
       <Route exact path="/artwork/:title" component={Artwork} />
       <Route exact path="/" component={Home} />
     </Router>

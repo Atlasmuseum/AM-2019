@@ -3,6 +3,7 @@ import {
   GET_MAP,
   GET_ARTWORK,
   GET_IMAGE,
+  GET_NEARBY_ARTWORKS,
 } from '../constants/action-types'
 
 export function getPage(payload) {
@@ -19,4 +20,8 @@ export function getArtwork(payload) {
 
 export function getImage(payload) {
   return { type: GET_IMAGE, payload }
+}
+
+export function getNearbyArtworks(payload) {
+  return { type: GET_NEARBY_ARTWORKS, payload }
 }

@@ -7,6 +7,8 @@ import {
   GET_ARTWORK_READY,
   GET_IMAGE,
   GET_IMAGE_READY,
+  GET_NEARBY_ARTWORKS,
+  GET_NEARBY_ARTWORKS_READY,
 } from '../constants/action-types'
 
 // État initial : aucun résultat, recherche pas encore activée
@@ -18,7 +20,7 @@ const initialState = {
 }
 
 function rootReducer(state = initialState, action) {
-  if (action.type === GET_PAGE || action.type === GET_MAP || action.type === GET_ARTWORK) {
+  if (action.type === GET_PAGE || action.type === GET_MAP || action.type === GET_ARTWORK || action.type === GET_NEARBY_ARTWORKS) {
     // Appel API
     return Object.assign({}, state, {
       apiLoading: true,
@@ -34,7 +36,7 @@ function rootReducer(state = initialState, action) {
     })
   }
 
-  if (action.type === GET_PAGE_READY || action.type === GET_MAP_READY || action.type === GET_ARTWORK_READY) {
+  if (action.type === GET_PAGE_READY || action.type === GET_MAP_READY || action.type === GET_ARTWORK_READY || action.type === GET_NEARBY_ARTWORKS_READY) {
     // L'API a retourné un résultat
     return Object.assign({}, state, {
       apiLoading: false,

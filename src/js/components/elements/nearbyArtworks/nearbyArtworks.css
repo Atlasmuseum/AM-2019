@@ -1,0 +1,17 @@
+.artworkLine {
+    padding: 10px;
+}
+
+.artworkLine + .artworkLine {
+    border-top: 1px solid #e5e5e5;
+}
+
+.artworkLine h2 {
+    color: #333333;
+    font-family: "FranklinGothicW01-Extra 692515";
+    font-weight: normal;
+}
+
+.artworkLine p {
+    color: #686868;
+}
