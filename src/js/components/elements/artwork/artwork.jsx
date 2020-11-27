@@ -231,21 +231,12 @@ export class Artwork extends Component {
                   <h3>Œuvre</h3>
                   <table>
                     <tbody>
-                      <tr>
-                        <th>Nature</th>
-                        <td>{nature}</td>
-                      </tr>
+                      <tr><th>Nature</th><td>{nature}</td></tr>
                       {colors && (
-                        <tr>
-                          <th>Couleurs</th>
-                          <td>{colors}</td>
-                        </tr>
+                        <tr><th>Couleurs</th><td>{colors}</td></tr>
                       )}
                       {materials && (
-                        <tr>
-                          <th>Matériaux</th>
-                          <td>{materials}</td>
-                        </tr>
+                        <tr><th>Matériaux</th><td>{materials}</td></tr>
                       )}
                     </tbody>
                   </table>
@@ -255,34 +246,19 @@ export class Artwork extends Component {
                   <table>
                     <tbody>
                       { site && (
-                        <tr>
-                          <th>Nom du site</th>
-                          <td>{site}</td>
-                        </tr>
+                        <tr><th>Nom du site</th><td>{site}</td></tr>
                       )}
                       { city && (
-                        <tr>
-                          <th>Ville</th>
-                          <td>{city}</td>
-                        </tr>
+                        <tr><th>Ville</th><td>{city}</td></tr>
                       )}
                       { region && (
-                        <tr>
-                          <th>Région</th>
-                          <td>{region}</td>
-                        </tr>
+                        <tr><th>Région</th><td>{region}</td></tr>
                       )}
                       { country && (
-                        <tr>
-                          <th>Pays</th>
-                          <td>{country}</td>
-                        </tr>
+                        <tr><th>Pays</th><td>{country}</td></tr>
                       )}
                       { siteDetails && (
-                        <tr>
-                          <th>Détail sur le site</th>
-                          <td>{siteDetails}</td>
-                        </tr>
+                        <tr><th>Détail sur le site</th><td>{siteDetails}</td></tr>
                       )}
                     </tbody>
                   </table>

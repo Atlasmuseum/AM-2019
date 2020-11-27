@@ -18,6 +18,14 @@ const iconMarker = new L.Icon({
   popupAnchor: [0, -25],
 });
 
+const iconMarkerWikidata = new L.Icon({
+  iconUrl: require('../../../../assets/images/Picto-Wikidata.png'),
+  iconRetinaUrl: require('../../../../assets/images/Picto-Wikidata.png'),
+  iconSize: new L.Point(48, 48),
+  iconAnchor: [24, 24],
+  popupAnchor: [0, 0],
+});
+
 const createClusterCustomIcon = function (cluster) {
   const count = cluster.getChildCount()
   let className = 'map_cluster '
@@ -82,7 +90,7 @@ export class ArtworkMap extends Component {
       mapLoading,
       mapContent,
     } = this.props
-console.log(mapContent[10000])
+
     return (
       <div className="mapContainer">
         { mapLoading
@@ -104,11 +112,11 @@ console.log(mapContent[10000])
                   spiderfyDistanceMultiplier={2}
                   iconCreateFunction={createClusterCustomIcon}
                 >
-                  { mapContent.map(artwork => (
+                  { mapContent.map((artwork, index) => (
                     <Marker
-                      key={artwork.article}
+                      key={(artwork.nature === 'wikidata' ? artwork.wikidata : artwork.article) + index}
                       position={[artwork.lat, artwork.lon]}
-                      icon={iconMarker}
+                      icon={artwork.nature === 'wikidata' ? iconMarkerWikidata : iconMarker}
                     >
                       <Popup className="map_popup">
                         <a href={'artwork/' + (artwork.nature === 'wikidata' ? artwork.wikidata : artwork.article)}><span className="map_popup_title">{artwork.title}</span></a>

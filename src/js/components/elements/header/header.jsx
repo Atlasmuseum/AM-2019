@@ -17,7 +17,8 @@ export class Header extends Component {
       link,
     } = this.props
 
-    history.push(link)
+    //history.push(link)
+    window.history.back();
   }
 
   render() {

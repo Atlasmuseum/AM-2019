@@ -77,6 +77,7 @@ export class NearbyArtworks extends Component {
                         className="artworkLine"
                         role="button"
                         onClick={event => this.onClick(artwork)}
+                        key={artwork.nature === 'wikidata' ? artwork.wikidata : artwork.article}
                     >
                         <h2>{artwork.titre}</h2>
                         <p>{this.formatDistance(artwork.distance)} km</p>
