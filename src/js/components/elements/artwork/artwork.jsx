@@ -288,7 +288,7 @@ export class Artwork extends Component {
                   </table>
                 </section>
                 <a className="amLink" href={'http://atlasmuseum.net/wiki/' + (origin === 'wikidata' ? 'Spécial:Wikidata/' : '') + article} target="_blank" rel="noopener noreferrer">
-                  Voir l'article sur atlasmuseum.net
+                  Voir la notice complète sur atlasmuseum.net
                 </a>
               </div>
             </>
