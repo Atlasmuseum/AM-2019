@@ -1,0 +1,50 @@
+.loginImage {
+    width: 100%;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.loginImage img {
+    width: 100%;
+    max-width: 200px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.loginContainer form {
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.loginContainer input {
+    width: 100%;
+    padding: 10px 5px;
+}
+
+.loginContainer input + input {
+    margin-top: 10px;
+}
+
+.loginContainer button {
+    color: #333333;
+    border: none;
+    background-color: #ffda00;
+    width: 100%;
+    padding: 15px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-top: 10px;
+    cursor: pointer;
+    display: inline-block;
+    text-align: center;
+    text-decoration: none;
+  }
+
+  .loginError {
+      margin-top: 10px;
+      color: red;
+  }

@@ -9,6 +9,7 @@ import {
 } from '../../../actions/index'
 import DiscLoader from '../discLoader'
 import reloadIcon from '../../../../assets/images/reloadIcon.svg'
+import missingImage from '../../../../assets/images/Image-manquante.jpg'
 
 import './artwork.css'
 
@@ -90,9 +91,11 @@ export class Artwork extends Component {
       let siteDetails = null
       let place = null
       let date = null
+      let image = null
       let imageData = null
 
       if (artworkContent && artworkContent.data) {
+        console.log(artworkContent.data)
         origin = artworkContent.origin
         if (artworkContent.data.titre.value.length > 0) {
           title = artworkContent.data.titre.value[0]
@@ -116,6 +119,10 @@ export class Artwork extends Component {
             placeData.push(country)
           if (placeData.length > 0)
             place = placeData.join(', ')
+
+          if (imageData === null) {
+            image = missingImage;
+          }
         }
       }
 
@@ -134,6 +141,7 @@ export class Artwork extends Component {
         siteDetails,
         place,
         date,
+        image,
         imageData,
       })
     }
@@ -208,7 +216,9 @@ export class Artwork extends Component {
         : (
             <>
               { image
-              ? <img src={image} alt ="" />
+              ? <div className="artworkImageContainer">
+                  <img src={image} alt ="" />
+                </div>
               : <div className="artworkImagePlaceholder">
                   <div
                     className="artworkImagePlaceholderInner"

@@ -177,6 +177,7 @@ function getNearbyArtworks(args) {
   return getAMAPI(requestParameters)
     .then(data => {
       if (data.success) {
+        data.entities.sort((a,b) => (a.distance - b.distance));
         return data.entities
       }
 

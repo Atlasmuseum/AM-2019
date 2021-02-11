@@ -1,5 +1,6 @@
 .artworkLine {
     padding: 10px;
+    cursor: pointer;
 }
 
 .artworkLine + .artworkLine {

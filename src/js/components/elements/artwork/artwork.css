@@ -55,6 +55,16 @@
   text-decoration: none;
 }
 
+.artworkImageContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.artworkImageContainer img {
+  width: 100%;
+  max-width: 420px;
+}
+
 .artworkImagePlaceholder {
   display: flex;
   justify-content: center;
