@@ -36,6 +36,7 @@ export class Edit extends Component {
     context: null,
     site: '',
     city: '',
+    department: null,
     region: null,
     country: null,
     siteDetails: null,
@@ -66,6 +67,7 @@ export class Edit extends Component {
           lat: position.coords.latitude,
           lon: position.coords.longitude,
         });
+        this.reverseGeocoding(position.coords.latitude, position.coords.longitude);
       });
     }
   }
@@ -83,6 +85,38 @@ export class Edit extends Component {
       }
     }
     return '';
+  }
+
+  reverseGeocoding = async (lat, lon) => {
+    this.setState({artworkLoading: true});
+
+    const urlBase = 'https://atlasmuseum.net/w/amapi/gmaps.php';
+    const params = {
+      latitude: lat,
+      longitude: lon,
+      username: 'atlasmuseum',
+    };
+    const url = urlBase + '?' + Object.keys(params).map(key => key + '=' + params[key]).join('&');
+
+    const response = await fetch(url, {
+      method: 'GET',
+      mode: 'cors',
+      cache: 'default'
+    });
+    const data = await response.json();
+
+    const city = data && data.locality ? data.locality : null
+    const department = data && data.administrative_area_level_2 ? data.administrative_area_level_2 : null
+    const country = data && data.country ? data.country : null
+    const region = data && data.administrative_area_level_1 ? data.administrative_area_level_1 : null
+
+    this.setState({
+      artworkLoading: false,
+      city,
+      department,
+      region,
+      country,
+    });
   }
 
   handleVideo = (stream) => {
@@ -171,6 +205,7 @@ export class Edit extends Component {
       let materials = null
       let site = null
       let city = null
+      let department = null
       let region = null
       let country = null
       let siteDetails = null
@@ -191,6 +226,7 @@ export class Edit extends Component {
           materials = this.getLabels(artworkContent.data.materiaux)
           site = this.getLabels(artworkContent.data.site_nom)
           city = this.getLabels(artworkContent.data.site_ville)
+          department = this.getValues(artworkContent.data.site_departement)
           region = this.getValues(artworkContent.data.site_region)
           country = this.getLabels(artworkContent.data.site_pays)
           siteDetails = this.getValues(artworkContent.data.site_details)
@@ -218,6 +254,7 @@ export class Edit extends Component {
         materials,
         site,
         city,
+        department,
         region,
         country,
         siteDetails,
@@ -280,26 +317,16 @@ export class Edit extends Component {
     const min = String(today.getMinutes()).padStart(2, '0');
     const ss = String(today.getSeconds()).padStart(2, '0');
 
-    return `${yyyy}-${mm}-${dd}_${hh}:${min}:${ss}`;
+    return `${yyyy}-${mm}-${dd}_${hh}-${min}-${ss}`;
   }
 
   createFileName = () => {
-    const today = new Date();
-    const dd = String(today.getDate()).padStart(2, '0');
-    const mm = String(today.getMonth() + 1).padStart(2, '0');
-    const yyyy = today.getFullYear();
-    const hh = String(today.getHours()).padStart(2, '0');
-    const min = String(today.getMinutes()).padStart(2, '0');
-    const ss = String(today.getSeconds()).padStart(2, '0');
-
-    const fileName = `app-${this.createTimeStamp()}.jpg`;
-
-    return fileName;
+    return `App-${this.createTimeStamp()}.jpg`;
   }
 
   uploadImage = async (blob, fileName) => {
     const file = new File([blob], fileName, {type: 'image/jpg'});
-    
+
     const url = 'https://atlasmuseum.net/w/app/upload.php';
     const data = {
         file: file,
@@ -355,7 +382,7 @@ export class Edit extends Component {
       article += this.state.artist;
     else
       article += 'Artiste inconnu';
-    article += ' - ' + this.createTimeStamp();
+    // article += ' - ' + this.createTimeStamp();
     article += ')';
 
     return article;
@@ -374,7 +401,7 @@ export class Edit extends Component {
       text += `|titre=${this.state.title}\n`;
     text += `|site_coordonnees=${this.state.lat}, ${this.state.lon}\n`;
     if (this.state.artist)
-      text += `|titre=${this.state.artist}\n`;
+      text += `|artiste=${this.state.artist}\n`;
     text += `|nature=pérenne\n`;
     if (fileName)
       text += `|image_principale=${fileName}\n`;
@@ -384,21 +411,23 @@ export class Edit extends Component {
       text += `|inauguration=${this.state.date}\n`;
     if (this.state.description)
       text += `|description=${this.state.description}\n`;
-    if (this.state.site_nom)
-      text += `|site_nom=${this.state.site_nom}\n`;
-    if (this.state.site_ville)
-      text += `|site_ville=${this.state.site_ville}\n`;
-    if (this.state.site_region)
-      text += `|site_region=${this.state.site_region}\n`;
-    if (this.state.site_pays)
-      text += `|site_pays=${this.state.site_pays}\n`;
+    if (this.state.site)
+      text += `|site_nom=${this.state.site}\n`;
+    if (this.state.city)
+      text += `|site_ville=${this.state.city}\n`;
+    if (this.state.department)
+      text += `|site_departement=${this.state.department}\n`;
+    if (this.state.region)
+      text += `|site_region=${this.state.region}\n`;
+    if (this.state.country)
+      text += `|site_pays=${this.state.country}\n`;
     text += '}}';
 
     const url = 'https://atlasmuseum.net/w/app/edit.php';
     const body = {
       action: 'edit',
       user: this.state.login,
-      password: this.state.password,
+      password: this.state.pass,
       article,
       text,
     };
@@ -447,11 +476,9 @@ export class Edit extends Component {
       this.setState({ uploadingImage: true });
       fileName = this.createFileName();
       const img = document.getElementById('mainImage');
-      /*
       fetch(img.src)
       .then(res => res.blob())
       .then(blob => { this.uploadImage(blob, fileName); });
-      */
     }
 
     this.uploadText(fileName);
@@ -480,6 +507,7 @@ export class Edit extends Component {
       materials,
       site,
       city,
+      department,
       region,
       country,
       siteDetails,
@@ -539,6 +567,7 @@ export class Edit extends Component {
                         <tr><th>Matériaux</th><td></td></tr>
                         <tr><th>Nom du site</th><td><input type="text" value={site} onChange={e => this.updateText('site', e.target.value)} /></td></tr>
                         <tr><th>Ville</th><td><input type="text" value={city} onChange={e => this.updateText('city', e.target.value)} /></td></tr>
+                        <tr><th>Département</th><td><input type="text" value={department} onChange={e => this.updateText('department', e.target.value)} /></td></tr>
                         <tr><th>Région</th><td><input type="text" value={region} onChange={e => this.updateText('region', e.target.value)} /></td></tr>
                         <tr><th>Pays</th><td><input type="text" value={country} onChange={e => this.updateText('country', e.target.value)} /></td></tr>
                     </tbody>
@@ -547,7 +576,7 @@ export class Edit extends Component {
 
               <div className="editFooterContainer">
                   <ul>
-                      <li><a href="/">Annuler</a></li>
+                      <li><a href="/app">Annuler</a></li>
                       <li>Sauvegarder</li>
                       <li role="button" onClick={this.upload}>Envoyer</li>
                   </ul>

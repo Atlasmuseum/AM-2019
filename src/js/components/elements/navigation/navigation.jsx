@@ -83,14 +83,16 @@ export class Navigation extends Component {
   };
 
   componentDidMount = () => {
+    /*
     const cookieValue = {
       'login': 'TestApp',
       'pass': 'TestAppLogin',
       'logged': true
     };
     this.createCookie('atlasmuseumapp', JSON.stringify(cookieValue));
+    */
     try {
-      const cookie = this.getCookie('atlasmuseumapp');
+      //const cookie = this.getCookie('atlasmuseumapp');
       const cookieValue = JSON.parse(this.getCookie('atlasmuseumapp'));
       if (cookieValue.logged) {
         const navigation = [...this.state.navigation];
