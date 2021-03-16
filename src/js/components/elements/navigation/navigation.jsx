@@ -26,6 +26,7 @@ export class Navigation extends Component {
         name: 'search',
         backgroundColor: '#fff100',
         textColor: '#323232',
+        link: 'search',
       },
       {
         icon: editIcon,
@@ -33,6 +34,7 @@ export class Navigation extends Component {
         name: 'edit',
         backgroundColor: '#ffeb00',
         textColor: '#323232',
+        link: 'edit',
       },
       {
         icon: aroundIcon,
@@ -40,6 +42,7 @@ export class Navigation extends Component {
         name: 'around',
         backgroundColor: '#fee600',
         textColor: '#323232',
+        link: 'around',
       },
       {
         icon: mapIcon,
@@ -47,6 +50,7 @@ export class Navigation extends Component {
         name: 'map',
         backgroundColor: '#ffe000',
         textColor: '#323232',
+        link: 'map',
       },
       {
         icon: helpIcon,
@@ -54,6 +58,7 @@ export class Navigation extends Component {
         name: 'help',
         backgroundColor: '#4d4d4d',
         textColor: 'white',
+        link: 'help',
       },
       {
         icon: personIcon,
@@ -61,6 +66,7 @@ export class Navigation extends Component {
         name: 'login',
         backgroundColor: '#707070',
         textColor: 'white',
+        link: 'login',
       },
       {
         icon: newsIcon,
@@ -68,6 +74,7 @@ export class Navigation extends Component {
         name: 'news',
         backgroundColor: '#dcdcdc',
         textColor: '#323232',
+        link: 'news',
       },
       {
         icon: aboutIcon,
@@ -75,7 +82,7 @@ export class Navigation extends Component {
         name: 'about',
         backgroundColor: '#eeeeee',
         textColor: '#323232',
-        onClick: this.onClickAbout,
+        link: 'about',
       },
     ],
     showPopup: false,
@@ -94,17 +101,31 @@ export class Navigation extends Component {
     try {
       //const cookie = this.getCookie('atlasmuseumapp');
       const cookieValue = JSON.parse(this.getCookie('atlasmuseumapp'));
+      console.log(cookieValue)
       if (cookieValue.logged) {
         const navigation = [...this.state.navigation];
         navigation[5].text = 'Déconnecter';
         navigation[5].name = 'logout';
+        navigation[5].link = 'logout';
         this.setState({
           navigation,
           logged: true
         });
+      } else {
+        const navigation = [...this.state.navigation];
+        navigation[1].link = 'login';
+        this.setState({
+          navigation,
+        });
       }
     }
-    catch (error) { }
+    catch (error) {
+      const navigation = [...this.state.navigation];
+        navigation[1].link = 'login';
+        this.setState({
+          navigation,
+        });
+    }
   }
 
   getCookie = (cookieName) => {
@@ -179,6 +200,7 @@ export class Navigation extends Component {
       case 'news':
         this.props.history.push('/news');
         break;
+      
       default:
     }
   }
@@ -201,6 +223,7 @@ export class Navigation extends Component {
                 backgroundColor={item.backgroundColor}
                 hoverColor={item.hoverColor}
                 textColor={item.textColor}
+                link={item.link}
                 onClick={this.onClickItem}
               />
             ))}
@@ -218,7 +241,7 @@ export class Navigation extends Component {
               onClick={(e) => { e.stopPropagation(); }}
             >
               <p>Voulez-vous vraiment vous déconnecter ?</p>
-              <p class="popupLogoutButtonsContainer">
+              <p className="popupLogoutButtonsContainer">
                 <button onClick={(e) => { this.setState({ showPopup: false })}}>Annuler</button>
                 <button onClick={this.logout}>OK</button>
               </p>

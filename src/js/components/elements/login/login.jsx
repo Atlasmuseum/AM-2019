@@ -91,7 +91,7 @@ export class Login extends Component {
                 onChange={this.onChangePassword}
               />
               {showError && (
-                <div class="loginError">
+                <div className="loginError">
                   Erreur de connexion
                 </div>
               )

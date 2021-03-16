@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
+import { Link } from "react-router-dom";
 
 /**
  * Élément de navigation de la page d'accueil
@@ -20,20 +21,30 @@ export class NavigationItem extends Component {
       onClick,
       backgroundColor,
       textColor,
+      link,
     } = this.props
 
     return (
       <li
         key={name}
         role="button"
-        onClick={(e) => onClick(name)}
+        onClick={(e) => { if (!link) onClick(name); } }
         style={{
           backgroundColor: backgroundColor,
           color: textColor,
         }}
       >
-        <img name="navIcon" src={icon} alt={text} />
-        <span>{text}</span>
+        {link
+          ? <Link to={link}>
+              <img name="navIcon" src={icon} alt={text} />
+              <span>{text}</span>
+            </Link>
+          : <>
+              <img name="navIcon" src={icon} alt={text} />
+              <span>{text}</span>
+            </>
+        }
+        
       </li>
     )
   }

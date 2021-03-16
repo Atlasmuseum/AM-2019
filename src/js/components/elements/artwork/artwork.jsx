@@ -31,6 +31,7 @@ export class Artwork extends Component {
     lat: null,
     lon: null,
     nature: null,
+    description: null,
     colors: null,
     materials: null,
     keywords: null,
@@ -82,6 +83,7 @@ export class Artwork extends Component {
       let title = null
       let artist = null
       let nature = null
+      let description = null
       let colors = null
       let materials = null
       let site = null
@@ -101,6 +103,7 @@ export class Artwork extends Component {
           title = artworkContent.data.titre.value[0]
           artist = this.getLabels(artworkContent.data.artiste)
           nature = this.getValues(artworkContent.data.nature)
+          description = this.getValues(artworkContent.data.description)
           colors = this.getLabels(artworkContent.data.couleur)
           materials = this.getLabels(artworkContent.data.materiaux)
           site = this.getLabels(artworkContent.data.site_nom)
@@ -132,6 +135,7 @@ export class Artwork extends Component {
         title,
         artist,
         nature,
+        description,
         colors,
         materials,
         site,
@@ -198,6 +202,7 @@ export class Artwork extends Component {
       date,
       place,
       nature,
+      description,
       colors,
       materials,
       site,
@@ -242,6 +247,9 @@ export class Artwork extends Component {
                   <table>
                     <tbody>
                       <tr><th>Nature</th><td>{nature}</td></tr>
+                      {description && (
+                        <tr><th>Description</th><td>{description}</td></tr>
+                      )}
                       {colors && (
                         <tr><th>Couleurs</th><td>{colors}</td></tr>
                       )}

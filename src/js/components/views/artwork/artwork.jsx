@@ -12,6 +12,7 @@ const Help = () => (
       text="Notice de l'œuvre"
       back
       link="/"
+      edit={true}
     />
     <main id="appContent" className="noPadding">
       <Artwork />

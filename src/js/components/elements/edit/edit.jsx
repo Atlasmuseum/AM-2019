@@ -8,6 +8,8 @@ import {
   getImage,
 } from '../../../actions/index'
 import DiscLoader from '../discLoader'
+import ColorsPicker from '../colorsPicker'
+import MaterialsPicker from '../materialsPicker'
 import cameraIcon from '../../../../assets/images/cameraIcon.svg'
 
 import './edit.css'
@@ -30,8 +32,8 @@ export class Edit extends Component {
     lat: null,
     lon: null,
     nature: null,
-    colors: null,
-    materials: null,
+    colors: [],
+    materials: [],
     keywords: null,
     context: null,
     site: '',
@@ -47,6 +49,8 @@ export class Edit extends Component {
     uploadingImage: false,
     uploadingText: false,
     showPopup: false,
+    showColors: false,
+    showMaterials: false,
   }
 
   componentDidMount() {
@@ -201,6 +205,7 @@ export class Edit extends Component {
       let title = null
       let artist = null
       let nature = null
+      let description = null
       let colors = null
       let materials = null
       let site = null
@@ -213,17 +218,19 @@ export class Edit extends Component {
       let date = null
       let image = null
       let imageData = null
-      let description = null
+      let lat = null
+      let lon = null
 
       if (artworkContent && artworkContent.data) {
-        console.log(artworkContent.data)
+        // console.log(artworkContent.data)
         origin = artworkContent.origin
         if (artworkContent.data.titre.value.length > 0) {
           title = artworkContent.data.titre.value[0]
           artist = this.getLabels(artworkContent.data.artiste)
           nature = this.getValues(artworkContent.data.nature)
-          colors = this.getLabels(artworkContent.data.couleur)
-          materials = this.getLabels(artworkContent.data.materiaux)
+          description = this.getValues(artworkContent.data.description)
+          colors = this.getLabelsAndValues(artworkContent.data.couleur)
+          materials = this.getLabelsAndValues(artworkContent.data.materiaux)
           site = this.getLabels(artworkContent.data.site_nom)
           city = this.getLabels(artworkContent.data.site_ville)
           department = this.getValues(artworkContent.data.site_departement)
@@ -234,6 +241,10 @@ export class Edit extends Component {
           imageData = artworkContent.data.image_principale && artworkContent.data.image_principale.value.length > 0
             ? artworkContent.data.image_principale.value[0]
             : null
+          if (artworkContent.data.site_coordonnees) {
+            lat = artworkContent.data.site_coordonnees.value[0].lat
+            lon = artworkContent.data.site_coordonnees.value[0].lon
+          }
           const placeData = []
           if (city)
             placeData.push(city)
@@ -250,6 +261,7 @@ export class Edit extends Component {
         title,
         artist,
         nature,
+        description,
         colors,
         materials,
         site,
@@ -262,7 +274,8 @@ export class Edit extends Component {
         date,
         image,
         imageData,
-        description,
+        lat,
+        lon,
       })
     }
   }
@@ -285,6 +298,21 @@ export class Edit extends Component {
     else {
       return ''
     }
+  }
+
+  getLabelsAndValues = (data) => {
+    const result = [];
+
+    if (data && data.value) {
+      for (let i = 0; i < data.value.length; i++) {
+        result.push({
+          label: data.value[i].label,
+          value: data.value[i].article,
+        });
+      }
+    }
+
+    return result;
   }
 
   loadImage = () => {
@@ -390,27 +418,29 @@ export class Edit extends Component {
 
   uploadText = async (fileName) => {
     this.setState({ uploadingText: true });
-    let article = this.state.article
+    let article = (this.state.article && this.state.origin != 'wikidata')
       ? this.state.article
       : this.getArticleName();
-
-    article = 'Utilisateur:TestApp';
 
     let text = '{{Notice d\'œuvre\n';
     if (this.state.title)
       text += `|titre=${this.state.title}\n`;
+    if (this.state.article && this.state.origin == 'wikidata')
+      text += `|wikidata=${this.state.article}\n`;
     text += `|site_coordonnees=${this.state.lat}, ${this.state.lon}\n`;
     if (this.state.artist)
       text += `|artiste=${this.state.artist}\n`;
     text += `|nature=pérenne\n`;
     if (fileName)
       text += `|image_principale=${fileName}\n`;
-    else
-      text += `|image_principale=Image-manquante.png\n`;
     if (this.state.date)
       text += `|inauguration=${this.state.date}\n`;
     if (this.state.description)
       text += `|description=${this.state.description}\n`;
+    if (this.state.colors && this.state.colors.length > 0)
+      text += `|couleur=${this.state.colors.map(color => color.value).join(';')}\n`;
+    if (this.state.materials && this.state.materials.length > 0)
+      text += `|materiaux=${this.state.materials.map(material => material.value).join(';')}\n`;
     if (this.state.site)
       text += `|site_nom=${this.state.site}\n`;
     if (this.state.city)
@@ -488,6 +518,70 @@ export class Edit extends Component {
     this.props.history.push('/');
   }
 
+  toggleColor = (color) => {
+    let found = false;
+    const newColors = this.state.colors && this.state.colors.length > 0
+      ? [...this.state.colors]
+      : [];
+
+    if (this.state.colors && this.state.colors.length) {
+      for (let i = 0; i < this.state.colors.length; i++) {
+        if (this.state.colors[i].value === color.value) {
+          newColors.splice(i, 1);
+          found = true;
+          break;
+        }
+      }
+    }
+
+    if (!found) {
+      newColors.push({
+        label: color.label,
+        value: color.value
+      });
+    }
+
+    newColors.sort((a, b) => {
+      if (a.label < b.label) return -1;
+      if (a.label > b.label) return 1;
+      return 0;
+    });
+
+    this.setState({ colors: newColors });
+  }
+
+  toggleMaterial = (material) => {
+    let found = false;
+    const newMaterials = this.state.materials && this.state.materials.length > 0
+      ? [...this.state.materials]
+      : [];
+
+    if (this.state.materials && this.state.materials.length > 0) {
+      for (let i = 0; i < this.state.materials.length; i++) {
+        if (this.state.materials[i].value === material.value) {
+          newMaterials.splice(i, 1);
+          found = true;
+          break;
+        }
+      }
+    }
+
+    if (!found) {
+      newMaterials.push({
+        label: material.label,
+        value: material.value
+      });
+    }
+
+    newMaterials.sort((a, b) => {
+      if (a.label < b.label) return -1;
+      if (a.label > b.label) return 1;
+      return 0;
+    });
+
+    this.setState({ materials: newMaterials });
+  }
+
   render() {
     const {
       artworkLoading,
@@ -516,6 +610,8 @@ export class Edit extends Component {
       uploadingImage,
       uploadingText,
       showPopup,
+      showColors,
+      showMaterials,
     } = this.state
 
     return (
@@ -526,52 +622,58 @@ export class Edit extends Component {
           )
         : (
             <>
-                { openVideo && (
-                    <div className="editVideoContainer">
-                        <div className="editVideoInner">
-                            <video id="video" width="100%" height="100%" className="cameraFrame" src={this.state.videoSrc} autoPlay={true} />
-                        </div>
-                        <div className="editVideoControl">
-                            <div
-                                onClick={this.closeVideo}
-                                role="button"
-                            >
-                                <span>OK</span>
-                            </div>
-                        </div>
-                    </div>
-                )}
-              { image
-              ? <div className="editImageContainer">
-                  <img id="mainImage" src={image} alt ="" />
-                </div>
-              : <div className="editImagePlaceholder">
-                  <div
-                    className="editImagePlaceholderInner"
-                    onClick={this.takePicture}
-                    role="button"
-                  >
-                    <img src={cameraIcon} alt="" />
-                    <span>Prendre une photo</span>
+              { openVideo && (
+                  <div className="editVideoContainer">
+                      <div className="editVideoInner">
+                          <video id="video" width="100%" height="100%" className="cameraFrame" src={this.state.videoSrc} autoPlay={true} />
+                      </div>
+                      <div className="editVideoControl">
+                          <div
+                              onClick={this.closeVideo}
+                              role="button"
+                          >
+                              <span>OK</span>
+                          </div>
+                      </div>
                   </div>
+              )}
+              <div className="editContentContainer">
+                { image
+                ? <div className="editImageContainer">
+                    <img id="mainImage" src={image} alt ="" />
+                  </div>
+                : <div className="editImagePlaceholder">
+                    <div
+                      className="editImagePlaceholderInner"
+                      onClick={this.takePicture}
+                      role="button"
+                    >
+                      <img src={cameraIcon} alt="" />
+                      <span>Prendre une photo</span>
+                    </div>
+                  </div>
+                }
+                <div className="editInfosContainer">
+                  <table>
+                      <tbody>
+                          <tr><th>Titre</th><td><input type="text" value={title} onChange={e => this.updateText('title', e.target.value)} /></td></tr>
+                          <tr><th>Artiste</th><td><input type="text" value={artist} onChange={e => this.updateText('artist', e.target.value)} /></td></tr>
+                          <tr><th>Couleurs</th><td onClick={e => { this.setState({ showColors: true }); }}>
+                            {colors ? colors.map(item => item.label).join(', '): ''}
+                          </td></tr>
+                          <tr><th>Date</th><td><input type="number" value={date} onChange={e => this.updateText('date', e.target.value)} /></td></tr>
+                          <tr><th>Description</th><td><input type="text" value={description} onChange={e => this.updateText('description', e.target.value)} /></td></tr>
+                          <tr><th>Matériaux</th><td onClick={e => { this.setState({ showMaterials: true }); }}>
+                            {materials ? materials.map(item => item.label).join(', '): ''}
+                          </td></tr>
+                          <tr><th>Nom du site</th><td><input type="text" value={site} onChange={e => this.updateText('site', e.target.value)} /></td></tr>
+                          <tr><th>Ville</th><td><input type="text" value={city} onChange={e => this.updateText('city', e.target.value)} /></td></tr>
+                          <tr><th>Département</th><td><input type="text" value={department} onChange={e => this.updateText('department', e.target.value)} /></td></tr>
+                          <tr><th>Région</th><td><input type="text" value={region} onChange={e => this.updateText('region', e.target.value)} /></td></tr>
+                          <tr><th>Pays</th><td><input type="text" value={country} onChange={e => this.updateText('country', e.target.value)} /></td></tr>
+                      </tbody>
+                  </table>
                 </div>
-              }
-              <div className="editInfosContainer">
-                <table>
-                    <tbody>
-                        <tr><th>Titre</th><td><input type="text" value={title} onChange={e => this.updateText('title', e.target.value)} /></td></tr>
-                        <tr><th>Artiste</th><td><input type="text" value={artist} onChange={e => this.updateText('artist', e.target.value)} /></td></tr>
-                        <tr><th>Couleurs</th><td></td></tr>
-                        <tr><th>Date</th><td><input type="number" value={date} onChange={e => this.updateText('date', e.target.value)} /></td></tr>
-                        <tr><th>Description</th><td><input type="text" value={description} onChange={e => this.updateText('description', e.target.value)} /></td></tr>
-                        <tr><th>Matériaux</th><td></td></tr>
-                        <tr><th>Nom du site</th><td><input type="text" value={site} onChange={e => this.updateText('site', e.target.value)} /></td></tr>
-                        <tr><th>Ville</th><td><input type="text" value={city} onChange={e => this.updateText('city', e.target.value)} /></td></tr>
-                        <tr><th>Département</th><td><input type="text" value={department} onChange={e => this.updateText('department', e.target.value)} /></td></tr>
-                        <tr><th>Région</th><td><input type="text" value={region} onChange={e => this.updateText('region', e.target.value)} /></td></tr>
-                        <tr><th>Pays</th><td><input type="text" value={country} onChange={e => this.updateText('country', e.target.value)} /></td></tr>
-                    </tbody>
-                </table>
               </div>
 
               <div className="editFooterContainer">
@@ -581,6 +683,18 @@ export class Edit extends Component {
                       <li role="button" onClick={this.upload}>Envoyer</li>
                   </ul>
               </div>
+              <ColorsPicker
+                  display={showColors}
+                  colors={this.state.colors}
+                  onClose={e => { this.setState({ showColors: false });}}
+                  toggleColor={this.toggleColor}
+                />
+              <MaterialsPicker
+                  display={showMaterials}
+                  materials={this.state.materials}
+                  onClose={e => { this.setState({ showMaterials: false });}}
+                  toggleMaterial={this.toggleMaterial}
+              />
               { (uploadingText || uploadingImage) && (
                 <div className="editLoaderContainer">
                   <DiscLoader />
@@ -598,7 +712,7 @@ export class Edit extends Component {
                     onClick={(e) => { e.stopPropagation(); }}
                   >
                     <p>Votre contribution a été transmise.</p>
-                    <p class="popupLogoutButtonsContainer">
+                    <p className="popupLogoutButtonsContainer">
                       <button onClick={this.goBack}>OK</button>
                     </p>
                   </div>

@@ -16,3 +16,10 @@
 .artworkLine p {
     color: #686868;
 }
+
+.artworkLine a {
+  width: 100%;
+  color: #686868;
+  text-decoration: none;
+  display: inline-block;
+}

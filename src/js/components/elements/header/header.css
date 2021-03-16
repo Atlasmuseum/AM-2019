@@ -3,7 +3,7 @@
   background: #ffda00;
   padding: 10px;
   display: flex;
-  justify-content: flex-start;
+  justify-content: space-between;
   align-items: center;
   -webkit-box-shadow: 0px 5px 5px -1px rgba(0,0,0,0.2);
   -moz-box-shadow: 0px 5px 5px -1px rgba(0,0,0,0.2);
@@ -11,7 +11,8 @@
   z-index: 1;
 }
 
-.appHeader h1 {
+.appHeader h1,
+.appHeader a {
   margin: 0;
   font-family:"FranklinGothicW01-Extra 692515";
   font-weight: normal;
@@ -19,6 +20,7 @@
   align-items: center;
   color: black;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .appHeaderBackIcon {
@@ -36,4 +38,11 @@
   width: auto;
   height: 33px;
   margin-right: 10px;
+}
+
+.appHeaderEditButton {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
 }

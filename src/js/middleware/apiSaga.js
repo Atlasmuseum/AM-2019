@@ -7,18 +7,24 @@ import {
   GET_MAP_READY,
   GET_ARTWORK,
   GET_ARTWORK_READY,
+  GET_ARTISTS,
+  GET_ARTISTS_READY,
   GET_IMAGE,
   GET_IMAGE_READY,
   GET_NEARBY_ARTWORKS,
   GET_NEARBY_ARTWORKS_READY,
+  GET_ARTWORKS_BY_ARTIST,
+  GET_ARTWORKS_BY_ARTIST_READY,
 } from '../constants/action-types'
 
 export default function* watcherSaga() {
   yield takeEvery(GET_PAGE, getPageSaga)
   yield takeEvery(GET_MAP, getMapSaga)
   yield takeEvery(GET_ARTWORK, getArtworkSaga)
+  yield takeEvery(GET_ARTISTS, getArtistsSaga)
   yield takeEvery(GET_IMAGE, getImageSaga)
   yield takeEvery(GET_NEARBY_ARTWORKS, getNearbyArtworksSaga)
+  yield takeEvery(GET_ARTWORKS_BY_ARTIST, getArtworksByArtistSaga)  
 }
 
 function* getPageSaga(args) {
@@ -61,6 +67,24 @@ function* getNearbyArtworksSaga(args) {
   try {
     const payload = yield call(getNearbyArtworks, args)
     yield put({ type: GET_NEARBY_ARTWORKS_READY, payload })
+  } catch (e) {
+    yield put({ type: API_ERROR, payload: e })
+  }
+}
+
+function* getArtistsSaga(args) {
+  try {
+    const payload = yield call(getArtists, args)
+    yield put({ type: GET_ARTISTS_READY, payload })
+  } catch (e) {
+    yield put({ type: API_ERROR, payload: e })
+  }
+}
+
+function* getArtworksByArtistSaga(args) {
+  try {
+    const payload = yield call(getArtworksByArtist, args)
+    yield put({ type: GET_ARTWORKS_BY_ARTIST_READY, payload })
   } catch (e) {
     yield put({ type: API_ERROR, payload: e })
   }
@@ -182,6 +206,47 @@ function getNearbyArtworks(args) {
       }
 
       return {}
+    })
+}
+
+/**
+ * Récupération des artistes
+ * @param {*} args 
+ */
+ function getArtists(args) {
+  // Paramêtres de requête API
+  const requestParameters = {
+    action: 'amgetartists',
+  }
+
+  return getAMAPI(requestParameters)
+    .then(data => {
+      if (data.success) {
+        return data.entities
+      }
+
+      return []
+    })
+}
+
+/**
+ * Récupération des œuvres d'un artiste
+ * @param {*} args 
+ */
+ function getArtworksByArtist(args) {
+  // Paramêtres de requête API
+  const requestParameters = {
+    action: 'amgetartworksbyartists',
+    artists: args.payload.artistName
+  }
+
+  return getAMAPI(requestParameters)
+    .then(data => {
+      if (data.success) {
+        return data.entities
+      }
+
+      return []
     })
 }
 

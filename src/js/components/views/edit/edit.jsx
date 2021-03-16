@@ -13,7 +13,7 @@ const Help = () => (
       back
       link="/"
     />
-    <main id="appContent" className="noPadding">
+    <main id="appContent" className="noPadding noOverflow">
       <Edit />
     </main>
   </div>
