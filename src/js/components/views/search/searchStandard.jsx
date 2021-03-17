@@ -1,9 +1,9 @@
 import React from 'react'
-import { Link } from "react-router-dom";
 
 import Header from '../../elements/header'
+import SearchStandard from '../../elements/search/searchStandard'
 
-const SearchStandard = () => (
+const SearchStandardView = () => (
   <div id="appContainer">
     <Header
       text="Rechercher"
@@ -11,8 +11,9 @@ const SearchStandard = () => (
       link="/"
     />
     <main id="appContent">
+      <SearchStandard />
     </main>
   </div>
 )
 
-export default SearchStandard
+export default SearchStandardView

@@ -17,10 +17,10 @@ const Help = () => (
     />
     <main id="appContent">
       <div className="nearbyArtworksContainer searchContainer">
-        {/*
         <div className="artworkLine">
           <h2><Link to="search/standard">Rechercher par artiste, titre, lieu</Link></h2>
         </div>
+        {/*
         <div className="artworkLine">
           <h2><Link to="search/date">Rechercher par date</Link></h2>
         </div>

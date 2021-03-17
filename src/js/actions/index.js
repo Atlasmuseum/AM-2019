@@ -6,6 +6,7 @@ import {
   GET_IMAGE,
   GET_NEARBY_ARTWORKS,
   GET_ARTWORKS_BY_ARTIST,
+  GET_SEARCH,
 } from '../constants/action-types'
 
 export function getPage(payload) {
@@ -36,3 +37,6 @@ export function getArtworksByArtist(payload) {
   return { type: GET_ARTWORKS_BY_ARTIST, payload }
 }
 
+export function getSearch(payload) {
+  return { type: GET_SEARCH, payload }
+}
